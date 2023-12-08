@@ -1,4 +1,4 @@
-package com.sidharth.travelai
+package com.sidharth.lgface
 
 import io.flutter.embedding.android.FlutterActivity
 
