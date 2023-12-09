@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lg_face/src/presentation/connection_screen.dart';
+import 'package:lg_face/src/presentation/connection/connection_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
