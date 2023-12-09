@@ -5,6 +5,18 @@ class ConnectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
-  }
+    return Column(
+      children: [
+        Text("Username"),
+        TextField(),
+        Text("Password"),
+        TextField(),
+        Text("IP Address"),
+        TextField(),
+        Text("Port Number"),
+        TextField(),
+        Text("Total Screens"),
+        Slider(value: 0.2, onChanged: (double value) {}),
+      ],
+    );  }
 }
