@@ -5,6 +5,10 @@ class CameraScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return
+    return Container(
+      child: Center(
+        child: Text('camera')
+      ),
+    );
   }
 }
