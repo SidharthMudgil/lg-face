@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lg_face/src/presentation/camera/camera_screen.dart';
-import 'package:lg_face/src/presentation/connection/connection_screen.dart';
+
+import '../camera/camera_page.dart';
+import '../connection/connection_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -42,11 +43,11 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Container(
             margin: const EdgeInsets.only(top: 40),
-            child: const CameraScreen(),
+            child: const CameraPage(),
           ),
           Container(
             margin: const EdgeInsets.only(top: 40),
-            child: const ConnectionScreen(),
+            child: const ConnectionPage(),
           ),
         ],
       ),

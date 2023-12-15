@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:lg_face/src/presentation/connection/widgets/input_field.dart';
-import 'package:lg_face/src/presentation/connection/widgets/input_label.dart';
+
+import 'widgets/input_field.dart';
+import 'widgets/input_label.dart';
 
 const String connect = "Connect";
 const String disconnect = "Disconnect";
 
-class ConnectionScreen extends StatefulWidget {
-  const ConnectionScreen({super.key});
+class ConnectionPage extends StatefulWidget {
+  const ConnectionPage({super.key});
 
   @override
-  State<ConnectionScreen> createState() => _ConnectionScreenState();
+  State<ConnectionPage> createState() => _ConnectionPageState();
 }
 
-class _ConnectionScreenState extends State<ConnectionScreen> {
+class _ConnectionPageState extends State<ConnectionPage> {
   final TextEditingController userController = TextEditingController();
   final TextEditingController passController = TextEditingController();
   final TextEditingController ipController = TextEditingController();
