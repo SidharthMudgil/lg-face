@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../camera/camera_page.dart';
-import '../connection/connection_page.dart';
+import 'camera/camera_page.dart';
+import 'connection/connection_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
