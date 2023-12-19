@@ -10,23 +10,20 @@ import 'package:tflite_flutter_helper_plus/tflite_flutter_helper_plus.dart';
 import '../core/util/image_utils.dart';
 
 class FaceLandmarkerService {
-  final outputShapes = [];
+  final outputShapes = <List<int>>[];
   final outputTypes = [];
 
+  static FaceLandmarkerService? instance;
   late Interpreter interpreter;
-  late int address;
-  Map<String, dynamic>? inferenceResults;
 
   Future<void> loadModel() async {
     try {
       final interpreterOptions = InterpreterOptions();
 
       interpreter = await Interpreter.fromAsset(
-        "assets/face_landmark.tflite",
+        "assets/face_landmarker.task",
         options: interpreterOptions,
       );
-
-      address = interpreter.address;
 
       final outputTensors = interpreter.getOutputTensors();
 
@@ -39,16 +36,6 @@ class FaceLandmarkerService {
     }
   }
 
-  TensorImage getProcessedImage(TensorImage inputImage) {
-    final imageProcessor = ImageProcessorBuilder()
-        .add(ResizeOp(192, 192, ResizeMethod.bilinear))
-        .add(NormalizeOp(0, 255))
-        .build();
-
-    inputImage = imageProcessor.process(inputImage);
-    return inputImage;
-  }
-
   Map<String, dynamic>? predict(image_lib.Image image) {
     if (Platform.isAndroid) {
       image = image_lib.copyRotate(image, -90);
@@ -56,7 +43,12 @@ class FaceLandmarkerService {
     }
 
     final tensorImage = TensorImage.fromImage(image);
-    final inputImage = getProcessedImage(tensorImage);
+    final imageProcessor = ImageProcessorBuilder()
+        .add(ResizeOp(192, 192, ResizeMethod.bilinear))
+        .add(NormalizeOp(0, 255))
+        .build();
+
+    final inputImage = imageProcessor.process(tensorImage);
 
     TensorBuffer outputLandmarks = TensorBufferFloat(outputShapes[0]);
     TensorBuffer outputScores = TensorBufferFloat(outputShapes[1]);
@@ -71,7 +63,7 @@ class FaceLandmarkerService {
     interpreter.runForMultipleInputs(inputs, outputs);
 
     if (outputScores.getDoubleValue(0) < 0) {
-      return null;
+      // return null;
     }
 
     final landmarkPoints = outputLandmarks.getDoubleList().reshape([468, 3]);
@@ -89,23 +81,13 @@ class FaceLandmarkerService {
   Future<void> inference({
     required CameraImage cameraImage,
   }) async {
-    await loadModel();
-    Map<String, dynamic> map = {
-      'cameraImage': cameraImage,
-      'detectorAddress': address,
-    };
-
-    final result = await compute(runFaceLandmarker, map);
-
-    inferenceResults = result;
-
-    debugPrint("${result ?? 'sad'}");
+    runFaceLandmarker(cameraImage);
   }
 
-  Future<Map<String, dynamic>?> runFaceLandmarker(Map<String, dynamic> params) async {
-    final faceLandmarker = FaceLandmarkerService();
-    final image = ImageUtils.convertCameraImage(params['cameraImage']);
-    final result = faceLandmarker.predict(image!);
-    return result;
+  void runFaceLandmarker(CameraImage cameraImage) {
+    final image = ImageUtils.convertCameraImage(cameraImage);
+    compute((message) => debugPrint("$image"), "message");
+    final result = predict(image!);
+    debugPrint("${result ?? 'sad'}");
   }
 }

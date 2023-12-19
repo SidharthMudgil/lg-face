@@ -26,13 +26,14 @@ class _CameraPageState extends State<CameraPage> {
     _currentCameraIndex = 0;
     _controller = CameraController(
       _cameras[_currentCameraIndex],
-      ResolutionPreset.ultraHigh,
+      ResolutionPreset.medium,
       enableAudio: false,
     );
 
     await _controller.initialize();
 
     FaceLandmarkerService faceLandmarkerService = FaceLandmarkerService();
+    await faceLandmarkerService.loadModel();
     _controller.startImageStream((image) => {
       faceLandmarkerService.inference(cameraImage: image)
     });

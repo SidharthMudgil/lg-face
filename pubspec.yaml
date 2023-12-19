@@ -37,4 +37,5 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/face_landmark.tflite
+    - assets/face_landmarker.tflite
+    - assets/face_landmarker.task
