@@ -32,7 +32,7 @@ class _CameraPageState extends State<CameraPage> {
     await _controller.initialize();
 
     _controller.startImageStream((image) => {
-    //   TODO
+
     });
 
     if (mounted) {
