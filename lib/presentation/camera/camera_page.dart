@@ -1,6 +1,5 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:lg_face/service/face_landmarker_service.dart';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({super.key});
@@ -32,10 +31,8 @@ class _CameraPageState extends State<CameraPage> {
 
     await _controller.initialize();
 
-    FaceLandmarkerService faceLandmarkerService = FaceLandmarkerService();
-    await faceLandmarkerService.loadModel();
     _controller.startImageStream((image) => {
-      faceLandmarkerService.inference(cameraImage: image)
+    //   TODO
     });
 
     if (mounted) {
