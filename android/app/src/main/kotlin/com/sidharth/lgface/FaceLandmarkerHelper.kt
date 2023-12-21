@@ -70,42 +70,29 @@ class FaceLandmarkerHelper(
     }
 
     fun detectLiveStream(
-        imageData: Map<String, Any>,
+        bitmap: Bitmap,
+        width: Int,
+        height: Int,
         isFrontCamera: Boolean
     ) {
         val frameTime = SystemClock.uptimeMillis()
 
-        val data = imageData["data"] as String
-        val width = imageData["width"] as Int
-        val height = imageData["height"] as Int
-
-        val decodedBytes = Base64.decode(data, Base64.DEFAULT)
-        Log.d("resultFaceLandmarkerDecodedBytes", "$decodedBytes")
-        Log.d("resultFaceLandmarkerDecodedBytesSize", "${decodedBytes.size}")
-        if (decodedBytes.size > 0) {
-            val bitmap: Bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-            Log.d("resultFaceLandmarkerBitmap", "$bitmap")
-
-            val matrix = Matrix().apply {
-                if (isFrontCamera) {
-                    postScale(-1f, 1f, width.toFloat(), height.toFloat())
-                }
+        val matrix = Matrix().apply {
+            if (isFrontCamera) {
+                postScale(-1f, 1f, width.toFloat(), height.toFloat())
             }
-            Log.d("resultFaceLandmarkerMatrix", "${matrix}")
+        }
 
-            val rotatedBitmap = bitmap?.let {
-                Bitmap.createBitmap(
-                    it, 0, 0, it.width, it.height,
-                    matrix, true
-                )
-            } ?: null
+        val rotatedBitmap = bitmap?.let {
+            Bitmap.createBitmap(
+                it, 0, 0, it.width, it.height,
+                matrix, true
+            )
+        } ?: null
 
-            rotatedBitmap?.let {
-                Log.d("resultFaceLandmarkerRotatedBitmap", "${it}")
-                val mpImage = BitmapImageBuilder(it).build()
-                Log.d("resultFaceLandmarkerMPImage", "${mpImage}")
-                detectAsync(mpImage, frameTime)
-            }
+        rotatedBitmap?.let {
+            val mpImage = BitmapImageBuilder(it).build()
+            detectAsync(mpImage, frameTime)
         }
     }
 

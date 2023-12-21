@@ -14,6 +14,11 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import io.flutter.embedding.engine.FlutterEngine
 import androidx.camera.core.ImageProxy
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import java.io.ByteArrayOutputStream;
+import com.sidharth.lgface.YuvConverter;
 
 
 class MainActivity : FlutterActivity() {
@@ -64,11 +69,39 @@ class MainActivity : FlutterActivity() {
                     result.success("FaceLandmarker shutdown")
                 }
                 "processImage" -> {
-                    val imageData = call.argument<Map<String, Any>>("imageData")
+                    val imageData = call.argument<Map<String, Any>>("imageData")!!
                     val isFrontFacing = call.argument<Boolean>("isFrontFacing")
 
+                    val bytesList  = imageData["platforms"] as List<ByteArray>
+                    val strides  = imageData["strides"] as IntArray
+                    val width = imageData["width"] as Int
+                    val height = imageData["height"] as Int
+                    val quality = imageData["quality"] as Int
+
+                    val data: ByteArray = YuvConverter.NV21toJPEG(
+                        YuvConverter.YUVtoNV21(
+                            bytesList,
+                            strides,
+                            width,
+                            height
+                        ), width, height, 100
+                    )
+
+                    val bitmapRaw: Bitmap = BitmapFactory.decodeByteArray(data, 0, data.size)
+                    val matrix = Matrix()
+                    matrix.postRotate(90 * 1f)
+                    val finalbitmap: Bitmap = Bitmap.createBitmap(
+                        bitmapRaw,
+                        0,
+                        0,
+                        bitmapRaw.getWidth(),
+                        bitmapRaw.getHeight(),
+                        matrix,
+                        true
+                    )
                     if (imageData != null && isFrontFacing != null) {
-                        faceLandmarkerHelper.detectLiveStream(imageData, isFrontFacing)
+//                        faceLandmarkerHelper.detectLiveStream(imageData, isFrontFacing)
+                        faceLandmarkerHelper.detectLiveStream(bitmapRaw, width, height, isFrontFacing)
                         result.success("Facelandmarker detectLiveSteam called")
                     } else {
                         result.error("INVALID_ARGUMENT", "Image data is null", null)
@@ -89,7 +122,7 @@ class MainActivity : FlutterActivity() {
 
         override fun onError(error: String) {
             Log.d("result", "$error")
-            val errorMap = mapOf("data" to error,)
+            val errorMap = mapOf("data" to error)
             Handler(Looper.getMainLooper()).postDelayed (
                 Runnable { channel.invokeMethod("onError", errorMap) }, 0
             )

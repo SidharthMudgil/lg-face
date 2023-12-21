@@ -1,11 +1,8 @@
-import 'dart:convert';
+import 'dart:typed_data';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/services.dart';
-import 'package:image/image.dart' as imglib;
-import 'package:lg_face/core/utils/image_utils.dart';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({super.key});
@@ -65,26 +62,34 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   void _sendImageToAndroid(CameraImage cameraImage) async {
-    // print("format: ${cameraImage.format.group.name}");
-    //
-    // final image = ImageUtils.convertYUV420ToImage(cameraImage);
-    // List<int> pngBytes = imglib.encodeJpg(image);
-    // String base64String = base64Encode(Uint8List.fromList(pngBytes));
-    XFile photo = await _controller.takePicture();
-    List<int> photoAsBytes = await photo.readAsBytes();
-    String base64String = base64Encode(photoAsBytes);
-    print('base64Image + $base64String');
+    final imageDataMap = yuvTransform(cameraImage);
+    channel.invokeMethod('processImage',
+        {'imageData': imageDataMap, 'isFrontFacing': false}).then((result) {
+      debugPrint('FaceLandmarkerHelper: $result');
+    });
+  }
 
-    Map<String, dynamic> imageDataMap = {
-      'data': base64String,
-      'width': cameraImage.width,
-      'height': cameraImage.height,
+  Map<String, dynamic> yuvTransform(CameraImage image, {int? quality = 60}) {
+    List<int> strides = Int32List(image.planes.length * 2);
+    int index = 0;
+
+    List<Uint8List> data = image.planes.map((plane) {
+      strides[index] = (plane.bytesPerRow);
+      index++;
+      strides[index] = (plane.bytesPerPixel)!;
+      index++;
+      return plane.bytes;
+    }).toList();
+
+    final map = {
+      'platforms': data,
+      'height': image.height,
+      'width': image.width,
+      'strides': strides,
+      'quality': quality
     };
-  _controller.stopImageStream();
-    // channel.invokeMethod('processImage',
-    //     {'imageData': imageDataMap, 'isFrontFacing': false}).then((result) {
-    //   debugPrint('FaceLandmarkerHelper: $result');
-    // });
+
+    return map;
   }
 
   @override

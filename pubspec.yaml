@@ -12,10 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  tflite_flutter: ^0.10.4
-  tflite_flutter_helper_plus: ^0.0.2
   flutter_riverpod: ^2.4.9
-  camera: ^0.10.5+6
+  camera: ^0.9.4
   riverpod_annotation: ^2.3.3
   ssh2: ^2.2.3
 
