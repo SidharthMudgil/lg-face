@@ -67,15 +67,8 @@ class MainActivity : FlutterActivity() {
                     val imageData = call.argument<Map<String, Any>>("imageData")
                     val isFrontFacing = call.argument<Boolean>("isFrontFacing")
 
-                    val noResultsMap = mapOf("data" to "no face present")
-                    Handler(Looper.getMainLooper()).postDelayed (
-                        Runnable {
-                            channel.invokeMethod("onNoResult", noResultsMap)
-                        }, 0
-                    )
-
                     if (imageData != null && isFrontFacing != null) {
-//                        faceLandmarkerHelper.detectLiveStream(imageData, isFrontFacing)
+                        faceLandmarkerHelper.detectLiveStream(imageData, isFrontFacing)
                         result.success("Facelandmarker detectLiveSteam called")
                     } else {
                         result.error("INVALID_ARGUMENT", "Image data is null", null)
@@ -89,19 +82,25 @@ class MainActivity : FlutterActivity() {
         override fun onResults(blendshapes: Map<String, Float>) {
             Log.d("result", "$blendshapes")
             val resultMap = mapOf("data" to blendshapes.toString())
-            channel.invokeMethod("onResult", resultMap)
+            Handler(Looper.getMainLooper()).postDelayed (
+                Runnable { channel.invokeMethod("onResult", resultMap) }, 0
+            )
         }
 
         override fun onError(error: String) {
             Log.d("result", "$error")
             val errorMap = mapOf("data" to error,)
-            channel.invokeMethod("onError", errorMap)
+            Handler(Looper.getMainLooper()).postDelayed (
+                Runnable { channel.invokeMethod("onError", errorMap) }, 0
+            )
         }
 
         override fun onNoResults() {
             Log.d("result", "no face detected")
             val noResultsMap = mapOf("data" to "no face present")
-            channel.invokeMethod("onNoResult", noResultsMap)
+            Handler(Looper.getMainLooper()).postDelayed (
+                Runnable { channel.invokeMethod("onNoResult", noResultsMap) }, 0
+            )
         }
     }
 }

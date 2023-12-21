@@ -12,25 +12,18 @@ dependencies:
   flutter:
     sdk: flutter
 
-  freezed_annotation: ^2.4.1
   tflite_flutter: ^0.10.4
   tflite_flutter_helper_plus: ^0.0.2
   flutter_riverpod: ^2.4.9
-  riverpod_annotation: ^2.3.3
   camera: ^0.10.5+6
+  riverpod_annotation: ^2.3.3
   ssh2: ^2.2.3
-  equatable: ^2.0.5
-  scidart: ^0.0.2-dev.12
-
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   build_runner: ^2.4.6
-  riverpod_generator: ^2.3.9
-  freezed: ^2.4.5
-
   flutter_lints: ^3.0.1
 
 flutter:
