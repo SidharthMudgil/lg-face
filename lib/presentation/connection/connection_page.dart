@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:lg_face/core/constant/constants.dart';
+import 'package:lg_face/service/lg_service.dart';
 
 import 'widgets/input_field.dart';
 import 'widgets/input_label.dart';
@@ -19,7 +23,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
   final TextEditingController ipController = TextEditingController();
   final TextEditingController portController = TextEditingController();
 
-  double value = 3;
+  double _slaves = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -77,14 +81,14 @@ class _ConnectionPageState extends State<ConnectionPage> {
             label: "Total Screens",
           ),
           Slider(
-            value: value,
+            value: _slaves,
             min: 3,
             max: 10,
             divisions: 10,
-            label: "${value.toInt()}",
+            label: "${_slaves.toInt()}",
             onChanged: (newValue) {
               setState(() {
-                value = newValue;
+                _slaves = newValue;
               });
             },
           ),
@@ -94,7 +98,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
           Align(
             alignment: Alignment.center,
             child: FilledButton(
-              onPressed: () {},
+              onPressed: _connectToLiquidGalaxy,
               style: FilledButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6),
@@ -108,5 +112,51 @@ class _ConnectionPageState extends State<ConnectionPage> {
         ],
       ),
     );
+  }
+
+  bool _isValidData() {
+    return ipController.text != "" &&
+        portController.text != "" &&
+        userController.text != "" &&
+        passController.text != "";
+  }
+
+  Future<void> _connectToLiquidGalaxy() async {
+    if (!_isValidData()) {
+      showSnackBar("empty data");
+      return;
+    }
+
+    final lgService = LGService(
+      host: ipController.text,
+      port: int.parse(portController.text),
+      username: userController.text,
+      password: passController.text,
+      slaves: _slaves.toInt(),
+    );
+
+    debugPrint("host: ${ipController.text}");
+    debugPrint("port: ${int.parse(portController.text)}");
+    debugPrint("username: ${userController.text}");
+    debugPrint("password: ${passController.text}");
+    debugPrint("slaves: ${_slaves.toInt()}");
+    
+    if (await lgService.connect()) {
+      showSnackBar("successful");
+      LGService.instance?.performCommand(LGState.north);
+      sleep(const Duration(seconds: 3));
+      LGService.instance?.performCommand(LGState.idle);
+    } else {
+      showSnackBar("failed");
+    }
+  }
+
+  void showSnackBar(String msg) {
+    final snackBar = SnackBar(
+      content: Text(msg),
+      duration: const Duration(seconds: 3),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

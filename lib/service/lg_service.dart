@@ -5,8 +5,8 @@ import '../core/constant/constants.dart';
 
 class LGService {
   late SSHClient _client;
-  LGState _lastState = LGState.idle;
-  static LGService? _instance;
+  static LGState _lastState = LGState.idle;
+  static LGService? instance;
 
   factory LGService({
     required String host,
@@ -15,14 +15,14 @@ class LGService {
     required String password,
     required int slaves,
   }) {
-    _instance ??= LGService._internal(
+    instance ??= LGService._internal(
       host: host,
       port: port,
       username: username,
       password: password,
       slaves: slaves,
     );
-    return _instance!;
+    return instance!;
   }
 
   LGService._internal({
@@ -69,6 +69,8 @@ class LGService {
   }
 
   Future<bool> performCommand(LGState state) async {
+    debugPrint("state: ${state.state} lastState: ${_lastState.state}");
+
     String command = "";
 
     if ((state == LGState.idle) || (_lastState != LGState.idle && _lastState != state)) {
@@ -76,6 +78,7 @@ class LGService {
       _lastState = LGState.idle;
     } else if (state != LGState.idle) {
       command = "export DISPLAY=:0; xdotool keydown ${state.state}";
+      _lastState = state;
     }
 
     return await _execute(command);
