@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/services.dart';
 
-class CameraPage extends StatefulWidget {
-  const CameraPage({super.key});
+class HomeScreen extends StatefulWidget {
+  static const route = "/";
+
+  const HomeScreen({super.key});
 
   @override
-  State<CameraPage> createState() => _CameraPageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _CameraPageState extends State<CameraPage> {
+class _HomeScreenState extends State<HomeScreen> {
   late CameraController _controller;
   late List<CameraDescription> _cameras;
   final channel = const MethodChannel('face_landmarker_channel');
@@ -100,18 +102,33 @@ class _CameraPageState extends State<CameraPage> {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("LG Face"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed("/settings");
+            },
+            icon: const Icon(Icons.settings),
+          )
+        ],
+      ),
+      body: _buildBody(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _toggleCamera,
+        child: const Icon(Icons.switch_camera),
+      ),
+    );
+  }
+
+  Widget _buildBody() {
     if (_controller.value.isInitialized == true) {
-      return Scaffold(
-        body: Container(
-          height: double.infinity,
-          width: double.infinity,
-          color: Colors.black,
-          child: Center(child: CameraPreview(_controller)),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _toggleCamera,
-          child: const Icon(Icons.switch_camera),
-        ),
+      return Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: Colors.black,
+        child: Center(child: CameraPreview(_controller)),
       );
     } else {
       return Container(

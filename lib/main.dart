@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lg_face/presentation/home_screen.dart';
+import 'package:lg_face/presentation/home/home_screen.dart';
+import 'package:lg_face/presentation/settings/settings_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,12 +14,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: HomeScreen());
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomeScreen(),
+        SettingsScreen.route: (context) => const SettingsScreen(),
+      },
+      // onGenerateRoute: (settings) {
+      //   if (settings.name == '/') {}
+      //   return null;
+      // },
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(builder: (context) => const HomeScreen());
+      },
+    );
   }
 }

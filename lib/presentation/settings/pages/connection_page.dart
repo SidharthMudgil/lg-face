@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:lg_face/core/constant/constants.dart';
 import 'package:lg_face/service/lg_service.dart';
 
-import 'widgets/input_field.dart';
-import 'widgets/input_label.dart';
+import '../widgets/input_field.dart';
+import '../widgets/input_label.dart';
 
 const String connect = "Connect";
 const String disconnect = "Disconnect";
