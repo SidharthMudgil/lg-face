@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lg_face/core/constant/constants.dart';
 import 'package:lg_face/service/lg_service.dart';
 
 import '../widgets/lg_button.dart';
@@ -31,11 +30,24 @@ class _LiquidGalaxyPageState extends State<LiquidGalaxyPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          const Text(
+            'Control your system',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            _connected ? 'Connected' : 'Disconnected',
+            style: TextStyle(
+              color: _connected ? Colors.green : Colors.red,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 16),
           LGButton(
             label: 'SET SLAVES REFRESH',
             icon: Icons.av_timer_rounded,
             onPressed: () {
-              LGService.instance?.connect();
+              LGService.instance?.setRefresh();
             },
             enabled: _connected,
           ),
@@ -43,7 +55,7 @@ class _LiquidGalaxyPageState extends State<LiquidGalaxyPage> {
             label: 'RESET SLAVES REFRESH',
             icon: Icons.timer_off_rounded,
             onPressed: () {
-              LGService.instance?.connect();
+              LGService.instance?.resetRefresh();
             },
             enabled: _connected,
           ),
@@ -51,7 +63,7 @@ class _LiquidGalaxyPageState extends State<LiquidGalaxyPage> {
             label: 'Clear KML + logos',
             icon: Icons.cleaning_services_rounded,
             onPressed: () {
-              LGService.instance?.connect();
+              LGService.instance?.cleanKml();
             },
             enabled: _connected,
           ),
@@ -59,7 +71,7 @@ class _LiquidGalaxyPageState extends State<LiquidGalaxyPage> {
             label: 'Relaunch',
             icon: Icons.reset_tv_rounded,
             onPressed: () {
-              LGService.instance?.connect();
+              LGService.instance?.rebootLG();
             },
             enabled: _connected,
           ),
@@ -67,7 +79,7 @@ class _LiquidGalaxyPageState extends State<LiquidGalaxyPage> {
             label: 'Reboot',
             icon: Icons.restart_alt_rounded,
             onPressed: () {
-              LGService.instance?.connect();
+              LGService.instance?.rebootLG();
             },
             enabled: _connected,
           ),
@@ -75,7 +87,7 @@ class _LiquidGalaxyPageState extends State<LiquidGalaxyPage> {
             label: 'Power off',
             icon: Icons.power_settings_new_rounded,
             onPressed: () {
-              LGService.instance?.connect();
+              LGService.instance?.shutdownLG();
             },
             enabled: _connected,
           ),

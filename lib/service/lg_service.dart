@@ -126,7 +126,7 @@ class LGService {
     }
   }
 
-  Future<bool> resetRefresh(context) async {
+  Future<bool> resetRefresh() async {
     try {
       bool res = true;
       for (var i = 2; i <= _slaves; i++) {
@@ -141,7 +141,7 @@ class LGService {
     }
   }
 
-  Future<bool> relaunchLG(context) async {
+  Future<bool> relaunchLG() async {
     try {
       bool res = true;
       for (var i = 1; i <= _slaves; i++) {
@@ -168,7 +168,7 @@ class LGService {
     }
   }
 
-  Future<bool> rebootLG(context) async {
+  Future<bool> rebootLG() async {
     try {
       bool res = true;
       for (var i = 1; i <= _slaves; i++) {
@@ -180,7 +180,7 @@ class LGService {
     }
   }
 
-  Future<bool> shutdownLG(context) async {
+  Future<bool> shutdownLG() async {
     try {
       bool res = true;
       for (var i = 1; i <= _slaves; i++) {
