@@ -20,7 +20,9 @@ class _LiquidGalaxyPageState extends State<LiquidGalaxyPage> {
   }
 
   void _isConnected() async {
-    _connected = await LGService.isConnected();
+    setState(() async {
+      _connected = await LGService.isConnected();
+    });
   }
 
   @override
