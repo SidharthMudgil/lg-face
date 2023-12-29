@@ -25,10 +25,6 @@ class MyApp extends StatelessWidget {
         '/': (context) => const HomeScreen(),
         SettingsScreen.route: (context) => const SettingsScreen(),
       },
-      // onGenerateRoute: (settings) {
-      //   if (settings.name == '/') {}
-      //   return null;
-      // },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(builder: (context) => const HomeScreen());
       },

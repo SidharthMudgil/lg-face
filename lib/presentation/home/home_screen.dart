@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/services.dart';
 
+import '../settings/settings_screen.dart';
+
 class HomeScreen extends StatefulWidget {
   static const route = "/";
 
@@ -108,7 +110,8 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed("/settings");
+              Navigator.of(context).pushReplacementNamed(SettingsScreen.route);
+              _controller.stopImageStream();
             },
             icon: const Icon(Icons.settings),
           )
