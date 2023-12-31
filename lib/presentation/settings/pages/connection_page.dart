@@ -42,8 +42,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Text(
             'Establish connection to the system',
@@ -63,6 +62,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
             hint: "lg",
             controller: userController,
             type: TextInputType.name,
+            prefixIcon: Icons.person_rounded,
           ),
           const SizedBox(height: 16),
           InputField(
@@ -70,6 +70,11 @@ class _ConnectionPageState extends State<ConnectionPage> {
             hint: "lg",
             controller: passController,
             type: TextInputType.visiblePassword,
+            prefixIcon: Icons.key_rounded,
+            suffixIcons: const [
+              Icons.visibility_rounded,
+              Icons.visibility_off_rounded,
+            ],
           ),
           const SizedBox(height: 16),
           InputField(
@@ -77,6 +82,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
             hint: "192.168.0.1",
             controller: ipController,
             type: TextInputType.phone,
+            prefixIcon: Icons.router_rounded,
           ),
           const SizedBox(height: 16),
           InputField(
@@ -84,13 +90,14 @@ class _ConnectionPageState extends State<ConnectionPage> {
             hint: "22",
             controller: portController,
             type: TextInputType.number,
+            prefixIcon: Icons.account_tree_rounded,
           ),
           const SizedBox(height: 16),
           Slider(
             value: _slaves,
             min: 3,
-            max: 10,
-            divisions: 10,
+            max: 7,
+            divisions: 4,
             label: "${_slaves.toInt()}",
             onChanged: (newValue) {
               setState(() {

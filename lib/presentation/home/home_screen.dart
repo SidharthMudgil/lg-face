@@ -110,11 +110,17 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {
+
+            },
+            icon: const Icon(Icons.info_outline_rounded),
+          ),
+          IconButton(
+            onPressed: () {
               Navigator.of(context).pushReplacementNamed(SettingsScreen.route);
               _controller.stopImageStream();
             },
             icon: const Icon(Icons.settings),
-          )
+          ),
         ],
       ),
       body: _buildBody(),

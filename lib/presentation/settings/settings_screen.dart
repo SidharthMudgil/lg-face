@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lg_face/presentation/settings/pages/connection_page.dart';
-import 'package:lg_face/presentation/settings/pages/about_page.dart';
 import 'package:lg_face/presentation/settings/pages/liquid_galaxy_page.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -19,6 +18,12 @@ class SettingsScreen extends StatelessWidget {
         length: 3, // Number of tabs
         child: Scaffold(
           appBar: AppBar(
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.of(context).pushReplacementNamed("/");
+              },
+            ),
             title: const Text('Settings'),
             bottom: const TabBar(
               tabs: [
@@ -30,10 +35,6 @@ class SettingsScreen extends StatelessWidget {
                   icon: Icon(Icons.south_america_rounded),
                   text: 'Liquid Galaxy',
                 ),
-                Tab(
-                  icon: Icon(Icons.info_outline_rounded),
-                  text: 'About',
-                ),
               ],
             ),
           ),
@@ -41,7 +42,6 @@ class SettingsScreen extends StatelessWidget {
             children: [
               ConnectionPage(),
               LiquidGalaxyPage(),
-              AboutPage(),
             ],
           ),
         ),

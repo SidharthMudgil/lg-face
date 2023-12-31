@@ -30,7 +30,7 @@ class _LiquidGalaxyPageState extends State<LiquidGalaxyPage> {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Text(
             'Control your system',

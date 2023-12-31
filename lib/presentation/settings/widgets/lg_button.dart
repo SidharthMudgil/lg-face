@@ -18,32 +18,37 @@ class LGButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 16),
-      child: ElevatedButton(
-        onPressed: () {
-          if (!enabled) {
-            return;
-          }
-          onPressed();
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: enabled ? ThemeData().primaryColor : Colors.grey,
-          minimumSize: const Size(300, 48),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              color: ThemeData().primaryColor,
-            ),
-            const SizedBox(width: 8), // Adjust the spacing as needed
-            Text(
-              label,
-              style: TextStyle(
-                color: ThemeData().primaryColor,
+      child: SizedBox(
+        width: 300,
+        height: 48,
+        child: ElevatedButton(
+          onPressed: () {
+            if (!enabled) {
+              return;
+            }
+            onPressed();
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: enabled ? ThemeData().primaryColor : Colors.grey,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                label.toUpperCase(),
+                style: TextStyle(
+                  color: enabled ? ThemeData().primaryColor : Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
               ),
-            ),
-          ],
+              const SizedBox(width: 8), // Adjust the spacing as needed
+              Icon(
+                icon,
+                color: enabled ? ThemeData().primaryColor : Colors.blueGrey,
+              ),
+            ],
+          ),
         ),
       ),
     );
