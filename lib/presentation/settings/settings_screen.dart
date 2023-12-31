@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lg_face/presentation/settings/pages/connection_page.dart';
-import 'package:lg_face/presentation/settings/pages/gestures_page.dart';
+import 'package:lg_face/presentation/settings/pages/about_page.dart';
 import 'package:lg_face/presentation/settings/pages/liquid_galaxy_page.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -27,12 +27,12 @@ class SettingsScreen extends StatelessWidget {
                   text: 'Connection',
                 ),
                 Tab(
-                  icon: Icon(Icons.sign_language_rounded),
-                  text: 'Gestures',
-                ),
-                Tab(
                   icon: Icon(Icons.south_america_rounded),
                   text: 'Liquid Galaxy',
+                ),
+                Tab(
+                  icon: Icon(Icons.info_outline_rounded),
+                  text: 'About',
                 ),
               ],
             ),
@@ -41,7 +41,7 @@ class SettingsScreen extends StatelessWidget {
             children: [
               ConnectionPage(),
               LiquidGalaxyPage(),
-              GesturesPage(),
+              AboutPage(),
             ],
           ),
         ),
