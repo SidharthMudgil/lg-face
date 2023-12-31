@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/services.dart';
+import 'package:lg_face/presentation/help/help_screen.dart';
 
 import '../settings/settings_screen.dart';
 
@@ -110,14 +111,15 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {
-
+              _controller.stopImageStream();
+              Navigator.of(context).pushReplacementNamed(HelpScreen.route);
             },
             icon: const Icon(Icons.info_outline_rounded),
           ),
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushReplacementNamed(SettingsScreen.route);
               _controller.stopImageStream();
+              Navigator.of(context).pushReplacementNamed(SettingsScreen.route);
             },
             icon: const Icon(Icons.settings),
           ),

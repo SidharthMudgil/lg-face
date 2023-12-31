@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lg_face/presentation/help/help_screen.dart';
 import 'package:lg_face/presentation/home/home_screen.dart';
 import 'package:lg_face/presentation/settings/settings_screen.dart';
 
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const HomeScreen(),
         SettingsScreen.route: (context) => const SettingsScreen(),
+        HelpScreen.route: (context) => const HelpScreen(),
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(builder: (context) => const HomeScreen());
