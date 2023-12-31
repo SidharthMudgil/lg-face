@@ -40,6 +40,7 @@ class _InputFieldState extends State<InputField> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 350,
+      height: 60,
       child: TextField(
         controller: widget.controller,
         keyboardType: widget.type,
@@ -50,35 +51,41 @@ class _InputFieldState extends State<InputField> {
         decoration: InputDecoration(
           labelText: widget.label,
           hintText: widget.hint,
-          prefixIcon: Icon(
-            widget.prefixIcon,
-            size: 20,
+          prefixIcon: Padding(
+            padding: const EdgeInsets.only(left: 20, right: 10),
+            child: Icon(
+              widget.prefixIcon,
+              size: 20,
+            ),
           ),
           suffixIcon: _isPassword
-              ? IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _suffixIndex = (_suffixIndex + 1) % 2;
-                      _obscure = !_obscure;
-                    });
-                  },
-                  icon: Icon(
-                    widget.suffixIcons!.elementAt(_suffixIndex),
-                    size: 20,
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _suffixIndex = (_suffixIndex + 1) % 2;
+                        _obscure = !_obscure;
+                      });
+                    },
+                    icon: Icon(
+                      widget.suffixIcons!.elementAt(_suffixIndex),
+                      size: 20,
+                    ),
                   ),
                 )
               : null,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 34,
-            vertical: 18,
-          ),
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(50),
             ),
           ),
-          floatingLabelStyle: TextStyle(
-            color: ThemeData().primaryColor,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50),
+            borderSide: const BorderSide(color: Color.fromARGB(255, 159, 202, 255)),
+          ),
+          floatingLabelStyle: const TextStyle(
+            color: Color.fromARGB(255, 159, 202, 255),
             fontWeight: FontWeight.w600,
           ),
         ),

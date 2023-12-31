@@ -32,15 +32,20 @@ class _LiquidGalaxyPageState extends State<LiquidGalaxyPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(height: 16),
           const Text(
             'Control your system',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
+          const SizedBox(height: 8),
           Text(
             _connected ? 'Connected' : 'Disconnected',
             style: TextStyle(
               color: _connected ? Colors.green : Colors.red,
-              fontSize: 16,
+              fontSize: 28,
               fontWeight: FontWeight.bold,
             ),
           ),
