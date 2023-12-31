@@ -36,12 +36,9 @@ class HelpScreen extends StatelessWidget {
             ),
             itemCount: 6,
             itemBuilder: (context, index) {
-              return Container(
-                color: Colors.red,
-                child: GestureItem(
-                  asset: gestures[index][0],
-                  label: gestures[index][1],
-                ),
+              return GestureItem(
+                asset: gestures[index][0],
+                label: gestures[index][1],
               );
             },
           ),

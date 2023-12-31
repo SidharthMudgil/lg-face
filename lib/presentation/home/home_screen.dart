@@ -134,11 +134,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildBody() {
+    final size = MediaQuery.of(context).size;
     if (_controller.value.isInitialized == true) {
-      return Container(
-        height: double.infinity,
-        width: double.infinity,
-        color: Colors.black,
+      final scale = _controller.value.aspectRatio / size.aspectRatio;
+
+      return Transform.scale(
+        scale: scale,
         child: Center(child: CameraPreview(_controller)),
       );
     } else {

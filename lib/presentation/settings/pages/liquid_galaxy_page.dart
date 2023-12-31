@@ -60,7 +60,7 @@ class _LiquidGalaxyPageState extends State<LiquidGalaxyPage> {
           ),
           LGButton(
             label: 'RESET SLAVES REFRESH',
-            icon: Icons.timer_off_rounded,
+            icon: Icons.timer_off_outlined,
             onPressed: () {
               LGService.instance?.resetRefresh();
             },

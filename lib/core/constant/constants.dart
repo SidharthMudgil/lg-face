@@ -14,10 +14,10 @@ class LGState {
 }
 
 const gestures = [
-  ["assets/", "Move North"],
-  ["assets/", "Move South"],
-  ["assets/", "Move East"],
-  ["assets/", "Move West"],
-  ["assets/", "Zoom In"],
-  ["assets/", "Zoom Out"],
+  ["assets/img_mouth_roll_upper.png", "Move North"],
+  ["assets/img_mouth_roll_lower.png", "Move South"],
+  ["assets/img_eye_blink_right.png", "Move East"],
+  ["assets/img_eye_blink_left.png", "Move West"],
+  ["assets/img_cheek_puff.png", "Zoom In"],
+  ["assets/img_mouth_open.png", "Zoom Out"],
 ];

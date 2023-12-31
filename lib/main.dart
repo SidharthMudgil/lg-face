@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'LG Face',
       theme: theme,
+      scrollBehavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
       initialRoute: '/',
       routes: {
         '/': (context) => const HomeScreen(),

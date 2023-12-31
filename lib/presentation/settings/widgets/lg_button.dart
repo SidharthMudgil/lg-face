@@ -19,7 +19,7 @@ class LGButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: SizedBox(
-        width: 300,
+        width: 350,
         height: 50,
         child: ElevatedButton(
           onPressed: () {

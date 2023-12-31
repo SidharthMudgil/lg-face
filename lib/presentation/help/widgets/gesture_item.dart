@@ -16,12 +16,16 @@ class GestureItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Image.asset(
-          asset,
-          // width: double.infinity,
-          // height: double.infinity,
+        Expanded(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10.0),
+            child: Image.asset(
+              asset,
+              fit: BoxFit.cover,
+            ),
+          ),
         ),
-        const SizedBox(height: 8), // Add some spacing between image and label
+        const SizedBox(height: 8),
         Text(
           label,
           style: const TextStyle(
