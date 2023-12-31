@@ -10,4 +10,14 @@ class LGState {
   static const LGState west = LGState._("Left");
   static const LGState zoomIn = LGState._("equal");
   static const LGState zoomOut = LGState._("minus");
+
 }
+
+const gestures = [
+  ["assets/", "Move North"],
+  ["assets/", "Move South"],
+  ["assets/", "Move East"],
+  ["assets/", "Move West"],
+  ["assets/", "Zoom In"],
+  ["assets/", "Zoom Out"],
+];

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../core/constant/constants.dart';
+import 'widgets/gesture_item.dart';
+
 class HelpScreen extends StatelessWidget {
   static const route = "/help";
 
@@ -22,7 +25,27 @@ class HelpScreen extends StatelessWidget {
           ),
           title: const Text('Help'),
         ),
-        body: Container(),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 16.0,
+              mainAxisSpacing: 16.0,
+              childAspectRatio: 0.7,
+            ),
+            itemCount: 6,
+            itemBuilder: (context, index) {
+              return Container(
+                color: Colors.red,
+                child: GestureItem(
+                  asset: gestures[index][0],
+                  label: gestures[index][1],
+                ),
+              );
+            },
+          ),
+        ),
       ),
     );
   }
