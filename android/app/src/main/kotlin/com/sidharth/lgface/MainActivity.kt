@@ -100,7 +100,6 @@ class MainActivity : FlutterActivity() {
                         true
                     )
                     if (imageData != null && isFrontFacing != null) {
-//                        faceLandmarkerHelper.detectLiveStream(imageData, isFrontFacing)
                         faceLandmarkerHelper.detectLiveStream(bitmapRaw, width, height, isFrontFacing)
                         result.success("Facelandmarker detectLiveSteam called")
                     } else {

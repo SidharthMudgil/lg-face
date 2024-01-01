@@ -1,9 +1,11 @@
 import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lg_face/core/constant/constants.dart';
 import 'package:lg_face/presentation/help/help_screen.dart';
+import 'package:lg_face/service/lg_service.dart';
 
 import '../settings/settings_screen.dart';
 
@@ -32,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _cameras = await availableCameras();
 
     channel.setMethodCallHandler((call) async {
-      debugPrint('${call.method} ${call.arguments}');
+      _performGestureCommands(call);
     });
 
     _controller = CameraController(
@@ -51,6 +53,80 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (mounted) {
       setState(() {});
+    }
+  }
+
+  Map<String, double> _getBlendshapeMap(String input) {
+    Map<String, double> blendshapes = {};
+    final keyValPair =
+        input.replaceAll('{', '').replaceAll('}', '').split(", ");
+
+    for (String pair in keyValPair) {
+      List<String> tokens = pair.split('=');
+      if (tokens.length == 2) {
+        blendshapes[tokens[0]] = double.tryParse(tokens[1]) ?? 0.0;
+      }
+    }
+
+    return blendshapes;
+  }
+
+  void _performGestureCommands(MethodCall call) async {
+    final connected = await LGService.isConnected();
+
+    if (LGService.instance == null || !connected) {
+      return;
+    }
+
+    if (call.method == "onResult") {
+      final blendshapes = _getBlendshapeMap((call.arguments as Map<String, String>)["data"]!);
+
+      final blendshapeValues = {
+        'neutral': blendshapes['neutral'] ?? 0.0,
+        'mouthRollUpper': blendshapes['mouthRollUpper'] ?? 0.0,
+        'mouthRollLower': blendshapes['mouthRollLower'] ?? 0.0,
+        'eyeBlinkLeft': blendshapes['eyeBlinkLeft'] ?? 0.0,
+        'eyeBlinkRight': blendshapes['eyeBlinkRight'] ?? 0.0,
+        'cheekPuff': blendshapes['cheekPuff'] ?? 0.0,
+        'mouthOpen': blendshapes['mouthOpen'] ?? 0.0,
+      };
+
+      String max = 'neutral';
+
+      blendshapeValues.forEach((key, value) {
+        if (value > blendshapeValues[max]!) {
+          max = key;
+        }
+      });
+
+      switch (max) {
+        case 'neutral':
+          LGService.instance?.performCommand(LGState.idle);
+          break;
+        case 'mouthRollLower':
+          LGService.instance?.performCommand(LGState.south);
+          break;
+        case 'mouthRollUpper':
+          LGService.instance?.performCommand(LGState.north);
+          break;
+        case 'eyeBlinkLeft':
+          LGService.instance?.performCommand(LGState.east);
+          break;
+        case 'eyeBlinkRight':
+          LGService.instance?.performCommand(LGState.west);
+          break;
+        case 'cheekPuff':
+          LGService.instance?.performCommand(LGState.zoomIn);
+          break;
+        case 'mouthOpen':
+          LGService.instance?.performCommand(LGState.zoomOut);
+          break;
+        default:
+          LGService.instance?.performCommand(LGState.idle);
+          break;
+      }
+    } else {
+      LGService.instance?.performCommand(LGState.idle);
     }
   }
 
