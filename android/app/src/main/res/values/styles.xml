@@ -15,4 +15,12 @@
     <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
+
+    <style name="Theme.Starting" parent="Theme.SplashScreen">
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/launcher_icon</item>
+        <item name="windowSplashScreenIconBackgroundColor">#ffffff</item>
+        <item name="windowSplashScreenBackground">#ffffff</item>
+        <item name="postSplashScreenTheme">@style/NormalTheme</item>
+    </style>
 </resources>

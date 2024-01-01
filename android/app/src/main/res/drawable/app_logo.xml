@@ -1,0 +1,13 @@
+    android:width="410.55dp"
+    android:height="410.55dp"
+    android:viewportWidth="410.55"
+    android:viewportHeight="410.55">
+  <path
+      android:pathData="m205.28,0C91.91,0 0,91.91 0,205.28s91.91,205.28 205.28,205.28 205.28,-91.91 205.28,-205.28S318.65,0 205.28,0ZM251.24,363.06c-87.14,0 -157.79,-70.64 -157.79,-157.79S164.09,47.49 251.23,47.49s157.79,70.64 157.79,157.79 -70.64,157.79 -157.79,157.79Z"
+      android:strokeWidth="0"
+      android:fillColor="#0062a5"/>
+  <path
+      android:pathData="M157.79,205.28a126,82.72 0,1 0,252 0a126,82.72 0,1 0,-252 0z"
+      android:strokeWidth="0"
+      android:fillColor="#0062a5"/>
+</vector>

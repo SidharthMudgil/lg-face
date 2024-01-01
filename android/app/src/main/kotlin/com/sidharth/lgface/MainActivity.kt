@@ -1,6 +1,7 @@
 package com.sidharth.lgface
 
 import com.sidharth.lgface.FaceLandmarkerHelper
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
@@ -30,6 +31,7 @@ class MainActivity : FlutterActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         context = applicationContext
         backgroundExecutor = Executors.newSingleThreadExecutor()
         backgroundExecutor.execute {
