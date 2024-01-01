@@ -89,7 +89,7 @@ class MainActivity : FlutterActivity() {
 
                     val bitmapRaw: Bitmap = BitmapFactory.decodeByteArray(data, 0, data.size)
                     val matrix = Matrix()
-                    matrix.postRotate(90 * 1f)
+                    matrix.postRotate(-90 * 1f)
                     val finalbitmap: Bitmap = Bitmap.createBitmap(
                         bitmapRaw,
                         0,
@@ -100,7 +100,7 @@ class MainActivity : FlutterActivity() {
                         true
                     )
                     if (imageData != null && isFrontFacing != null) {
-                        faceLandmarkerHelper.detectLiveStream(bitmapRaw, width, height, isFrontFacing)
+                        faceLandmarkerHelper.detectLiveStream(finalbitmap, width, height, isFrontFacing)
                         result.success("Facelandmarker detectLiveSteam called")
                     } else {
                         result.error("INVALID_ARGUMENT", "Image data is null", null)
@@ -112,7 +112,6 @@ class MainActivity : FlutterActivity() {
 
     private val faceLandMarkerListener = object : FaceLandmarkerHelper.LandmarkerListener {
         override fun onResults(blendshapes: Map<String, Float>) {
-            Log.d("result", "$blendshapes")
             val resultMap = mapOf("data" to blendshapes.toString())
             Handler(Looper.getMainLooper()).postDelayed (
                 Runnable { channel.invokeMethod("onResult", resultMap) }, 0
@@ -120,7 +119,6 @@ class MainActivity : FlutterActivity() {
         }
 
         override fun onError(error: String) {
-            Log.d("result", "$error")
             val errorMap = mapOf("data" to error)
             Handler(Looper.getMainLooper()).postDelayed (
                 Runnable { channel.invokeMethod("onError", errorMap) }, 0
@@ -128,7 +126,6 @@ class MainActivity : FlutterActivity() {
         }
 
         override fun onNoResults() {
-            Log.d("result", "no face detected")
             val noResultsMap = mapOf("data" to "no face present")
             Handler(Looper.getMainLooper()).postDelayed (
                 Runnable { channel.invokeMethod("onNoResult", noResultsMap) }, 0

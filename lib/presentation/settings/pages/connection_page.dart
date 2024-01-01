@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:lg_face/core/constant/constants.dart';
 import 'package:lg_face/service/lg_service.dart';
 
 import '../widgets/input_field.dart';
@@ -32,8 +29,9 @@ class _ConnectionPageState extends State<ConnectionPage> {
   }
 
   void _isConnected() async {
-    setState(() async {
-      _connected = await LGService.isConnected();
+    final connected = await LGService.isConnected();
+    setState(() {
+      _connected = connected;
     });
   }
 
@@ -175,12 +173,12 @@ class _ConnectionPageState extends State<ConnectionPage> {
       slaves: _slaves.toInt(),
     );
 
-    if (await lgService.connect()) {
+    final result = await lgService.connect();
+    if (result) {
+      _isConnected();
       showSnackBar("successful");
-      LGService.instance?.performCommand(LGState.north);
-      sleep(const Duration(seconds: 3));
-      LGService.instance?.performCommand(LGState.idle);
     } else {
+      _isConnected();
       showSnackBar("failed");
     }
   }

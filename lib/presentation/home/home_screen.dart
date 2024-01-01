@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late List<CameraDescription> _cameras;
   final channel = const MethodChannel('face_landmarker_channel');
   int _currentCameraIndex = 1;
+  String gesture = "Neutral";
 
   @override
   void initState() {
@@ -58,8 +59,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Map<String, double> _getBlendshapeMap(String input) {
     Map<String, double> blendshapes = {};
-    final keyValPair =
-        input.replaceAll('{', '').replaceAll('}', '').split(", ");
+    final keyValPair = input
+        .replaceAll('{', '')
+        .replaceAll('}', '')
+        .replaceAll("data: ", "")
+        .split(", ");
 
     for (String pair in keyValPair) {
       List<String> tokens = pair.split('=');
@@ -74,21 +78,17 @@ class _HomeScreenState extends State<HomeScreen> {
   void _performGestureCommands(MethodCall call) async {
     final connected = await LGService.isConnected();
 
-    if (LGService.instance == null || !connected) {
-      return;
-    }
-
     if (call.method == "onResult") {
-      final blendshapes = _getBlendshapeMap((call.arguments as Map<String, String>)["data"]!);
+      final blendshapes = _getBlendshapeMap(call.arguments.toString());
 
       final blendshapeValues = {
-        'neutral': blendshapes['neutral'] ?? 0.0,
+        "neutral": blendshapes['neutral'] ?? 0.0,
         'mouthRollUpper': blendshapes['mouthRollUpper'] ?? 0.0,
         'mouthRollLower': blendshapes['mouthRollLower'] ?? 0.0,
         'eyeBlinkLeft': blendshapes['eyeBlinkLeft'] ?? 0.0,
         'eyeBlinkRight': blendshapes['eyeBlinkRight'] ?? 0.0,
-        'cheekPuff': blendshapes['cheekPuff'] ?? 0.0,
-        'mouthOpen': blendshapes['mouthOpen'] ?? 0.0,
+        'browInnerUp': blendshapes['browInnerUp'] ?? 0.0,
+        'jawOpen': blendshapes['jawOpen'] ?? 0.0,
       };
 
       String max = 'neutral';
@@ -99,10 +99,22 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       });
 
+      debugPrint("$blendshapeValues");
+
+      if (blendshapes[max]! < 0.5) {
+        max = 'neutral';
+      }
+
+      setState(() {
+        gesture = max;
+      });
+
+      if (LGService.instance == null || !connected) {
+        debugPrint("here");
+        return;
+      }
+
       switch (max) {
-        case 'neutral':
-          LGService.instance?.performCommand(LGState.idle);
-          break;
         case 'mouthRollLower':
           LGService.instance?.performCommand(LGState.south);
           break;
@@ -115,10 +127,10 @@ class _HomeScreenState extends State<HomeScreen> {
         case 'eyeBlinkRight':
           LGService.instance?.performCommand(LGState.west);
           break;
-        case 'cheekPuff':
+        case 'browInnerUp':
           LGService.instance?.performCommand(LGState.zoomIn);
           break;
-        case 'mouthOpen':
+        case 'jawOpen':
           LGService.instance?.performCommand(LGState.zoomOut);
           break;
         default:
@@ -145,9 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _sendImageToAndroid(CameraImage cameraImage) async {
     final imageDataMap = yuvTransform(cameraImage);
     channel.invokeMethod('processImage',
-        {'imageData': imageDataMap, 'isFrontFacing': false}).then((result) {
-      debugPrint('FaceLandmarkerHelper: $result');
-    });
+        {'imageData': imageDataMap, 'isFrontFacing': false}).then((result) {});
   }
 
   Map<String, dynamic> yuvTransform(CameraImage image, {int? quality = 60}) {
@@ -214,9 +224,20 @@ class _HomeScreenState extends State<HomeScreen> {
     if (_controller.value.isInitialized == true) {
       final scale = _controller.value.aspectRatio / size.aspectRatio;
 
-      return Transform.scale(
-        scale: scale,
-        child: Center(child: CameraPreview(_controller)),
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CameraPreview(_controller),
+          Text(
+            "Gesture Detected: $gesture",
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 20,
+              color: Colors.lightBlue,
+            ),
+          ),
+        ],
       );
     } else {
       return Container(

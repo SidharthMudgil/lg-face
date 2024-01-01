@@ -51,8 +51,7 @@ class LGService {
 
   Future<bool> connect() async {
     try {
-      String? result = await _client.connect();
-      debugPrint("$result");
+      await _client.connect();
       return true;
     } catch (e) {
       return false;
@@ -61,8 +60,7 @@ class LGService {
 
   Future<bool> disconnect() async {
     try {
-      String? result = await _client.disconnect();
-      debugPrint("$result");
+      await _client.disconnect();
       return true;
     } catch (e) {
       return false;
@@ -71,8 +69,7 @@ class LGService {
 
   Future<bool> _execute(String query) async {
     try {
-      var result = await _client.execute(query);
-      debugPrint("$result");
+      await _client.execute(query);
       return true;
     } catch (e) {
       return false;
@@ -80,15 +77,15 @@ class LGService {
   }
 
   Future<bool> performCommand(LGState state) async {
-    debugPrint("state: ${state.state} lastState: ${_lastState.state}");
-
     String command = "";
 
-    if ((state == LGState.idle) ||
-        (_lastState != LGState.idle && _lastState != state)) {
+    if ((state == LGState.idle) || (_lastState != LGState.idle && _lastState != state)) {
       command = 'export DISPLAY=:0; xdotool keyup ${_lastState.state}';
       _lastState = LGState.idle;
-    } else if (state != LGState.idle) {
+    }
+
+    if (state != LGState.idle) {
+      debugPrint("switched state from '${_lastState.state}' to '${state.state}'");
       command = "export DISPLAY=:0; xdotool keydown ${state.state}";
       _lastState = state;
     }

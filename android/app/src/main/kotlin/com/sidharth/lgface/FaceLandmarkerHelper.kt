@@ -18,6 +18,11 @@ import com.google.mediapipe.tasks.vision.facelandmarker.FaceLandmarker
 import com.google.mediapipe.tasks.vision.facelandmarker.FaceLandmarkerResult
 import java.nio.ByteBuffer
 
+import android.os.Environment
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+
 class FaceLandmarkerHelper(
     val context: Context,
     val faceLandmarkerHelperListener: LandmarkerListener? = null,
@@ -76,23 +81,47 @@ class FaceLandmarkerHelper(
         isFrontCamera: Boolean
     ) {
         val frameTime = SystemClock.uptimeMillis()
+        val mpImage = BitmapImageBuilder(bitmap).build()
+        detectAsync(mpImage, frameTime)
 
-        val matrix = Matrix().apply {
-            if (isFrontCamera) {
-                postScale(-1f, 1f, width.toFloat(), height.toFloat())
-            }
-        }
+//        val matrix = Matrix().apply {
+//            if (isFrontCamera) {
+//                postScale(-1f, 1f, width.toFloat(), height.toFloat())
+//            }
+//        }
+//
+//        val rotatedBitmap = bitmap?.let {
+//            Bitmap.createBitmap(
+//                it, 0, 0, it.width, it.height,
+//                matrix, true
+//            )
+//        } ?: null
+//
+//        bitmap?.let {
+//        saveBitmap(it, context)
+//        }
+//
+//        rotatedBitmap?.let {
+//            val mpImage = BitmapImageBuilder(it).build()
+//            detectAsync(mpImage, frameTime)
+//        }
+    }
 
-        val rotatedBitmap = bitmap?.let {
-            Bitmap.createBitmap(
-                it, 0, 0, it.width, it.height,
-                matrix, true
-            )
-        } ?: null
-
-        rotatedBitmap?.let {
-            val mpImage = BitmapImageBuilder(it).build()
-            detectAsync(mpImage, frameTime)
+    fun saveBitmap(bitmap: Bitmap, context: Context) {
+        try {
+            val root: String = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES
+            ).toString()
+            val myDir = File("$root/saved_images")
+            myDir.mkdirs()
+            val fname: String = "${System.currentTimeMillis()}.jpg"
+            val file = File(myDir, fname)
+            val out = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
+            out.flush()
+            out.close()
+        } catch (e: java.lang.Exception) {
+            Log.d("onBtnSavePng", e.toString())
         }
     }
 
