@@ -99,8 +99,6 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       });
 
-      debugPrint("$blendshapeValues");
-
       if (blendshapes[max]! < 0.5) {
         max = 'neutral';
       }
@@ -110,7 +108,6 @@ class _HomeScreenState extends State<HomeScreen> {
       });
 
       if (LGService.instance == null || !connected) {
-        debugPrint("here");
         return;
       }
 
@@ -196,6 +193,10 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text("LG Face"),
         actions: [
           IconButton(
+            onPressed: _toggleCamera,
+            icon: const Icon(Icons.switch_camera_outlined),
+          ),
+          IconButton(
             onPressed: () {
               _controller.stopImageStream();
               Navigator.of(context).pushReplacementNamed(HelpScreen.route);
@@ -212,10 +213,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: _buildBody(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _toggleCamera,
-        child: const Icon(Icons.switch_camera),
-      ),
     );
   }
 
