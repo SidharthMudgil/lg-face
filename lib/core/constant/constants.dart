@@ -18,6 +18,6 @@ const gestures = [
   ["assets/img_mouth_roll_lower.png", "Move South"],
   ["assets/img_eye_blink_right.png", "Move East"],
   ["assets/img_eye_blink_left.png", "Move West"],
-  ["assets/img_cheek_puff.png", "Zoom In"],
+  ["assets/img_brow_inner_up.png", "Zoom In"],
   ["assets/img_mouth_open.png", "Zoom Out"],
 ];
