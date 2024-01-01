@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       });
 
-      if (blendshapes[max]! < 0.5) {
+      if (blendshapes[max]! < 0.4) {
         max = 'neutral';
       }
 
