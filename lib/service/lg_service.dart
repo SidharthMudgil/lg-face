@@ -20,13 +20,20 @@ class LGService {
     required String password,
     required int slaves,
   }) {
-    instance ??= LGService._internal(
-      host: host,
-      port: port,
-      username: username,
-      password: password,
-      slaves: slaves,
-    );
+    if (instance == null ||
+        instance!._host != host ||
+        instance!._username != username ||
+        instance!._port != port ||
+        instance!._password != password ||
+        instance!._slaves != slaves) {
+      instance = LGService._internal(
+        host: host,
+        port: port,
+        username: username,
+        password: password,
+        slaves: slaves,
+      );
+    }
     return instance!;
   }
 
@@ -79,13 +86,15 @@ class LGService {
   Future<bool> performCommand(LGState state) async {
     String command = "";
 
-    if ((state == LGState.idle) || (_lastState != LGState.idle && _lastState != state)) {
+    if ((state == LGState.idle) ||
+        (_lastState != LGState.idle && _lastState != state)) {
       command = 'export DISPLAY=:0; xdotool keyup ${_lastState.state}';
       _lastState = LGState.idle;
     }
 
     if (state != LGState.idle) {
-      debugPrint("switched state from '${_lastState.state}' to '${state.state}'");
+      debugPrint(
+          "switched state from '${_lastState.state}' to '${state.state}'");
       command = "export DISPLAY=:0; xdotool keydown ${state.state}";
       _lastState = state;
     }
@@ -112,10 +121,15 @@ class LGService {
       bool res = true;
       for (var i = 2; i <= _slaves; i++) {
         String search = '<href>##LG_PHPIFACE##kml\\/slave_$i.kml<\\/href>';
-        String replace = '<href>##LG_PHPIFACE##kml\\/slave_$i.kml<\\/href><refreshMode>onInterval<\\/refreshMode><refreshInterval>2<\\/refreshInterval>';
+        String replace =
+            '<href>##LG_PHPIFACE##kml\\/slave_$i.kml<\\/href><refreshMode>onInterval<\\/refreshMode><refreshInterval>2<\\/refreshInterval>';
 
-        res = res && await _execute('sshpass -p ${_password} ssh -t lg$i \'echo ${_password} | sudo -S sed -i "s/$replace/$search/" ~/earth/kml/slave/myplaces.kml\'');
-        res = res && await _execute('sshpass -p ${_password} ssh -t lg$i \'echo ${_password} | sudo -S sed -i "s/$search/$replace/" ~/earth/kml/slave/myplaces.kml\'');
+        res = res &&
+            await _execute(
+                'sshpass -p ${_password} ssh -t lg$i \'echo ${_password} | sudo -S sed -i "s/$replace/$search/" ~/earth/kml/slave/myplaces.kml\'');
+        res = res &&
+            await _execute(
+                'sshpass -p ${_password} ssh -t lg$i \'echo ${_password} | sudo -S sed -i "s/$search/$replace/" ~/earth/kml/slave/myplaces.kml\'');
       }
       return res;
     } catch (error) {
@@ -127,10 +141,13 @@ class LGService {
     try {
       bool res = true;
       for (var i = 2; i <= _slaves; i++) {
-        String search = '<href>##LG_PHPIFACE##kml\\/slave_$i.kml<\\/href><refreshMode>onInterval<\\/refreshMode><refreshInterval>2<\\/refreshInterval>';
+        String search =
+            '<href>##LG_PHPIFACE##kml\\/slave_$i.kml<\\/href><refreshMode>onInterval<\\/refreshMode><refreshInterval>2<\\/refreshInterval>';
         String replace = '<href>##LG_PHPIFACE##kml\\/slave_$i.kml<\\/href>';
 
-        res = res && await _execute('sshpass -p ${_password} ssh -t lg$i \'echo ${_password} | sudo -S sed -i "s/$search/$replace/" ~/earth/kml/slave/myplaces.kml\'');
+        res = res &&
+            await _execute(
+                'sshpass -p ${_password} ssh -t lg$i \'echo ${_password} | sudo -S sed -i "s/$search/$replace/" ~/earth/kml/slave/myplaces.kml\'');
       }
       return res;
     } catch (error) {
@@ -156,7 +173,9 @@ class LGService {
             echo ${_password} | sudo -S service \\\${SERVICE} restart
           fi
           " && sshpass -p ${_password} ssh -x -t lg@lg$i "\$RELAUNCH_CMD\"""";
-        res = res && await _execute('"/home/${_username}/bin/lg-relaunch" > /home/${_username}/log.txt');
+        res = res &&
+            await _execute(
+                '"/home/${_username}/bin/lg-relaunch" > /home/${_username}/log.txt');
         res = res && await _execute(cmd);
       }
       return res;
@@ -169,7 +188,9 @@ class LGService {
     try {
       bool res = true;
       for (var i = 1; i <= _slaves; i++) {
-        res = res && await _execute('sshpass -p ${_password} ssh -t lg$i "echo ${_password} | sudo -S reboot');
+        res = res &&
+            await _execute(
+                'sshpass -p ${_password} ssh -t lg$i "echo ${_password} | sudo -S reboot');
       }
       return res;
     } catch (error) {
@@ -181,7 +202,9 @@ class LGService {
     try {
       bool res = true;
       for (var i = 1; i <= _slaves; i++) {
-        res = res && await _execute('sshpass -p ${_password} ssh -t lg$i "echo ${_password} | sudo -S poweroff"');
+        res = res &&
+            await _execute(
+                'sshpass -p ${_password} ssh -t lg$i "echo ${_password} | sudo -S poweroff"');
       }
       return res;
     } catch (error) {
