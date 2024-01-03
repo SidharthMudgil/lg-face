@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
@@ -99,8 +100,12 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       });
 
-      if (blendshapes[max]! < 0.4) {
+      if (blendshapes[max]! < 0.5) {
         max = 'neutral';
+      }
+
+      if (blendshapes['mouthRollUpper']! > 0.3) {
+        max = 'mouthRollUpper';
       }
 
       setState(() {
