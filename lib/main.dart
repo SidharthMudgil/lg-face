@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
   }
 
   void setPreferredOrientations(BuildContext context) {
-    bool isTablet = MediaQuery.of(context).size.shortestSide <= 600;
+    bool isTablet = MediaQuery.of(context).size.shortestSide >= 600;
     if (isTablet) {
       SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
     } else {
