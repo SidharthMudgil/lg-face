@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
@@ -82,14 +81,24 @@ class _HomeScreenState extends State<HomeScreen> {
     if (call.method == "onResult") {
       final blendshapes = _getBlendshapeMap(call.arguments.toString());
 
+      final north = [
+        blendshapes['mouthLeft'] ?? 0.0,
+        blendshapes['mouthRight'] ?? 0.0,
+      ].reduce((value, element) => value > element? value: element);
+
+      final south = [
+        blendshapes['mouthRollLower'] ?? 0.0,
+        blendshapes['mouthRollUpper'] ?? 0.0
+      ].reduce((value, element) => value > element? value: element);
+
       final blendshapeValues = {
         "neutral": blendshapes['neutral'] ?? 0.0,
-        'mouthRollUpper': blendshapes['mouthRollUpper'] ?? 0.0,
-        'mouthRollLower': blendshapes['mouthRollLower'] ?? 0.0,
-        'eyeBlinkLeft': blendshapes['eyeBlinkLeft'] ?? 0.0,
-        'eyeBlinkRight': blendshapes['eyeBlinkRight'] ?? 0.0,
-        'browInnerUp': blendshapes['browInnerUp'] ?? 0.0,
-        'jawOpen': blendshapes['jawOpen'] ?? 0.0,
+        'north': north,
+        'south': south,
+        'east': blendshapes['eyeBlinkLeft'] ?? 0.0,
+        'west': blendshapes['eyeBlinkRight'] ?? 0.0,
+        'zoomIn': blendshapes['browInnerUp'] ?? 0.0,
+        'zoomOut': blendshapes['jawOpen'] ?? 0.0,
       };
 
       String max = 'neutral';
@@ -100,12 +109,8 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       });
 
-      if (blendshapes[max]! < 0.5) {
+      if (blendshapeValues[max]! < 0.5) {
         max = 'neutral';
-      }
-
-      if (blendshapes['mouthRollUpper']! > 0.3) {
-        max = 'mouthRollUpper';
       }
 
       setState(() {
@@ -117,22 +122,22 @@ class _HomeScreenState extends State<HomeScreen> {
       }
 
       switch (max) {
-        case 'mouthRollLower':
-          LGService.instance?.performCommand(LGState.south);
-          break;
-        case 'mouthRollUpper':
+        case 'north':
           LGService.instance?.performCommand(LGState.north);
           break;
-        case 'eyeBlinkLeft':
+        case 'south':
+          LGService.instance?.performCommand(LGState.south);
+          break;
+        case 'east':
           LGService.instance?.performCommand(LGState.east);
           break;
-        case 'eyeBlinkRight':
+        case 'west':
           LGService.instance?.performCommand(LGState.west);
           break;
-        case 'browInnerUp':
+        case 'zoomIn':
           LGService.instance?.performCommand(LGState.zoomIn);
           break;
-        case 'jawOpen':
+        case 'zoomOut':
           LGService.instance?.performCommand(LGState.zoomOut);
           break;
         default:

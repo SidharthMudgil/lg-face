@@ -14,8 +14,8 @@ class LGState {
 }
 
 const gestures = [
-  ["assets/img_mouth_roll_upper.png", "Move North"],
-  ["assets/img_mouth_roll_lower.png", "Move South"],
+  ["assets/img_mouth_left.png", "Move North"],
+  ["assets/img_mouth_roll_upper.png", "Move South"],
   ["assets/img_eye_blink_right.png", "Move East"],
   ["assets/img_eye_blink_left.png", "Move West"],
   ["assets/img_brow_inner_up.png", "Zoom In"],

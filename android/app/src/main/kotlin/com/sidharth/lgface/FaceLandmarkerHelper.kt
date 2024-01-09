@@ -83,28 +83,6 @@ class FaceLandmarkerHelper(
         val frameTime = SystemClock.uptimeMillis()
         val mpImage = BitmapImageBuilder(bitmap).build()
         detectAsync(mpImage, frameTime)
-
-//        val matrix = Matrix().apply {
-//            if (isFrontCamera) {
-//                postScale(-1f, 1f, width.toFloat(), height.toFloat())
-//            }
-//        }
-//
-//        val rotatedBitmap = bitmap?.let {
-//            Bitmap.createBitmap(
-//                it, 0, 0, it.width, it.height,
-//                matrix, true
-//            )
-//        } ?: null
-//
-//        bitmap?.let {
-//        saveBitmap(it, context)
-//        }
-//
-//        rotatedBitmap?.let {
-//            val mpImage = BitmapImageBuilder(it).build()
-//            detectAsync(mpImage, frameTime)
-//        }
     }
 
     fun saveBitmap(bitmap: Bitmap, context: Context) {
