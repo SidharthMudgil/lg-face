@@ -28,7 +28,7 @@ class _LiquidGalaxyPageState extends State<LiquidGalaxyPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

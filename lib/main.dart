@@ -31,13 +31,31 @@ class MyApp extends StatelessWidget {
       scrollBehavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
       initialRoute: '/',
       routes: {
-        '/': (context) => const HomeScreen(),
-        SettingsScreen.route: (context) => const SettingsScreen(),
-        HelpScreen.route: (context) => const HelpScreen(),
+        '/': (context) {
+          setPreferredOrientations(context);
+          return const HomeScreen();
+        },
+        SettingsScreen.route: (context) {
+          setPreferredOrientations(context);
+          return const SettingsScreen();
+        },
+        HelpScreen.route: (context) {
+          setPreferredOrientations(context);
+          return const HelpScreen();
+        },
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(builder: (context) => const HomeScreen());
       },
     );
+  }
+
+  void setPreferredOrientations(BuildContext context) {
+    bool isTablet = MediaQuery.of(context).size.shortestSide <= 600;
+    if (isTablet) {
+      SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+    } else {
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    }
   }
 }
