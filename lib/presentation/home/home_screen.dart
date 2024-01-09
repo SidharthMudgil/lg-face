@@ -22,7 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
   late CameraController _controller;
   late List<CameraDescription> _cameras;
   final channel = const MethodChannel('face_landmarker_channel');
-  int _currentCameraIndex = 1;
   String gesture = "Neutral";
 
   @override
@@ -39,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     _controller = CameraController(
-      _cameras[_currentCameraIndex],
+      _cameras[1],
       ResolutionPreset.medium,
       enableAudio: false,
     );
@@ -153,18 +152,10 @@ class _HomeScreenState extends State<HomeScreen> {
     await channel.invokeMethod('initializeFaceLandmarker');
   }
 
-  Future<void> _toggleCamera() async {
-    _currentCameraIndex = (_currentCameraIndex + 1) % _cameras.length;
-
-    await _controller.dispose();
-
-    _initializeCamera();
-  }
-
   void _sendImageToAndroid(CameraImage cameraImage) async {
     final imageDataMap = yuvTransform(cameraImage);
     channel.invokeMethod('processImage',
-        {'imageData': imageDataMap, 'isFrontFacing': false}).then((result) {});
+        {'imageData': imageDataMap, 'isFrontFacing': true}).then((result) {});
   }
 
   Map<String, dynamic> yuvTransform(CameraImage image, {int? quality = 60}) {
@@ -202,10 +193,6 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text("LG Face"),
         actions: [
-          IconButton(
-            onPressed: _toggleCamera,
-            icon: const Icon(Icons.switch_camera_outlined),
-          ),
           IconButton(
             onPressed: () {
               _controller.stopImageStream();
