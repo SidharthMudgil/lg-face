@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:json_theme/json_theme.dart';
 import 'package:lg_face/presentation/help/help_screen.dart';
 import 'package:lg_face/presentation/home/home_screen.dart';
+import 'package:lg_face/presentation/home/splash_screen.dart';
 import 'package:lg_face/presentation/settings/settings_screen.dart';
 
 Future<void> main() async {
@@ -29,9 +30,13 @@ class MyApp extends StatelessWidget {
       title: 'LG Face',
       theme: theme,
       scrollBehavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-      initialRoute: '/',
+      initialRoute: SplashScreen.route,
       routes: {
-        '/': (context) {
+        SplashScreen.route: (context) {
+          setPreferredOrientations(context);
+          return const SplashScreen();
+        },
+        HomeScreen.route: (context) {
           setPreferredOrientations(context);
           return const HomeScreen();
         },

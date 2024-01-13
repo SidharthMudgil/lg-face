@@ -21,3 +21,7 @@ const gestures = [
   ["assets/img_brow_inner_up.png", "Zoom In"],
   ["assets/img_mouth_open.png", "Zoom Out"],
 ];
+
+const lgLogo = "assets/lg_logo.png";
+const sidharthGithub = "LiquidGalaxyLAB";
+const lgGithub = "SidharthMudgil";

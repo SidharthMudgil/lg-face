@@ -68,14 +68,6 @@ class _LiquidGalaxyPageState extends State<LiquidGalaxyPage> {
             enabled: _connected,
           ),
           LGButton(
-            label: 'Clear KML + logos',
-            icon: Icons.cleaning_services_rounded,
-            onPressed: () {
-              LGService.instance?.cleanKml();
-            },
-            enabled: _connected,
-          ),
-          LGButton(
             label: 'Relaunch',
             icon: Icons.reset_tv_rounded,
             onPressed: () {

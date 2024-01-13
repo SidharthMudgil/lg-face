@@ -98,33 +98,6 @@ class _ConnectionPageState extends State<ConnectionPage> {
             prefixIcon: Icons.account_tree_rounded,
           ),
           const SizedBox(height: 28),
-          const Padding(
-            padding: EdgeInsets.only(left: 10.0),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                "Total number of Screens",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 6),
-          Slider(
-            value: _slaves,
-            min: 3,
-            max: 7,
-            divisions: 4,
-            label: "${_slaves.toInt()}",
-            onChanged: (newValue) {
-              setState(() {
-                _slaves = newValue;
-              });
-            },
-          ),
-          const SizedBox(height: 28),
           Align(
             alignment: Alignment.center,
             child: FilledButton(
