@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:json_theme/json_theme.dart';
+import 'package:lg_face/presentation/settings/pages/about_page.dart';
 import 'package:lg_face/presentation/help/help_screen.dart';
 import 'package:lg_face/presentation/home/home_screen.dart';
 import 'package:lg_face/presentation/home/splash_screen.dart';
@@ -47,6 +48,10 @@ class MyApp extends StatelessWidget {
         HelpScreen.route: (context) {
           setPreferredOrientations(context);
           return const HelpScreen();
+        },
+        AboutPage.route: (context) {
+          setPreferredOrientations(context);
+          return const AboutPage();
         },
       },
       onUnknownRoute: (settings) {
