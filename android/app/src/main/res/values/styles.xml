@@ -19,8 +19,9 @@
     <style name="Theme.Starting" parent="Theme.SplashScreen">
         <item name="android:windowLightStatusBar">false</item>
         <item name="windowSplashScreenAnimatedIcon">@mipmap/launcher_icon</item>
-        <item name="windowSplashScreenIconBackgroundColor">#ffffff</item>
-        <item name="windowSplashScreenBackground">#ffffff</item>
+        <item name="windowSplashScreenIconBackgroundColor">#ff1a1c1e</item>
+        <item name="windowSplashScreenBackground">#ff1a1c1e</item>
         <item name="postSplashScreenTheme">@style/NormalTheme</item>
+        <item name="android:statusBarColor">#ff1a1c1e</item>
     </style>
 </resources>

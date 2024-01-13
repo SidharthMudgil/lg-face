@@ -10,7 +10,7 @@ import 'package:lg_face/service/lg_service.dart';
 import '../settings/settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const route = "/";
+  static const route = "/home";
 
   const HomeScreen({super.key});
 

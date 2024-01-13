@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lg_face/presentation/home/home_screen.dart';
 import 'package:lg_face/presentation/settings/pages/connection_page.dart';
 import 'package:lg_face/presentation/settings/pages/liquid_galaxy_page.dart';
 
@@ -12,7 +13,7 @@ class SettingsScreen extends StatelessWidget {
     return PopScope(
       canPop: false,
       onPopInvoked: (can) {
-        Navigator.of(context).pushReplacementNamed("/");
+        Navigator.of(context).pushReplacementNamed(HomeScreen.route);
       },
       child: DefaultTabController(
         length: 3, // Number of tabs
@@ -21,7 +22,7 @@ class SettingsScreen extends StatelessWidget {
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed("/");
+                Navigator.of(context).pushReplacementNamed(HomeScreen.route);
               },
             ),
             title: const Text('Settings'),
