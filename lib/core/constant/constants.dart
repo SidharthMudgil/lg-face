@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class LGState {
   final String state;
 
@@ -23,5 +25,14 @@ const gestures = [
 ];
 
 const lgLogo = "assets/lg_logo.png";
+const appLogo = "assets/icon.png";
 const sidharthGithub = "LiquidGalaxyLAB";
 const lgGithub = "SidharthMudgil";
+const appName = "LG Face";
+const appDescription = "LG-Face is a simplified Flutter-based app designed to enhance your Liquid Galaxy experience through facial gesture control. With seamless integration with the Mediapipe API, users can control their Liquid Galaxy rig remotely using various facial expressions.";
+
+const IconData twitter = IconData(0xf099, fontFamily: "icons", fontPackage: null);
+const IconData github = IconData(0xf09b, fontFamily: "icons", fontPackage: null);
+const IconData linkedin_in = IconData(0xf0e1, fontFamily: "icons", fontPackage: null);
+const IconData instagram = IconData(0xf16d, fontFamily: "icons", fontPackage: null);
+const IconData google_play = IconData(0xf3ab, fontFamily: "icons", fontPackage: null);

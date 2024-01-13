@@ -15,6 +15,7 @@ dependencies:
   camera: ^0.9.4
   ssh2: ^2.2.3
   json_theme: ^4.0.0
+  url_launcher: ^6.1.5
 
 dev_dependencies:
   flutter_test:
@@ -35,3 +36,8 @@ flutter:
 
   assets:
     - assets/
+
+  fonts:
+    - family: icons
+      fonts:
+        - asset: assets/fonts/icons.ttf
