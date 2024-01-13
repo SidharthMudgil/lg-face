@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/constant/constants.dart';
+import '../home/home_screen.dart';
 import 'widgets/gesture_item.dart';
 
 class HelpScreen extends StatelessWidget {
@@ -13,14 +14,14 @@ class HelpScreen extends StatelessWidget {
     return PopScope(
       canPop: false,
       onPopInvoked: (can) {
-        Navigator.of(context).pushReplacementNamed("/");
+        Navigator.of(context).pushReplacementNamed(HomeScreen.route);
       },
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.of(context).pushReplacementNamed("/");
+              Navigator.of(context).pushReplacementNamed(HomeScreen.route);
             },
           ),
           title: const Text('Help'),
